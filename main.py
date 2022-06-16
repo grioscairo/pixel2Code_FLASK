@@ -6,7 +6,7 @@ import os
 from PIL import Image as imagen
 
 #Run on PS
-#   $env:FLASK_APP = "main"
+#   $env:FLASK_APP = "app"
 #   $env:FLASK_ENV = "development"
 #   flask run
 
@@ -36,7 +36,7 @@ def upload():
         filename = secure_filename(file.filename)  
         if file and allowed_file(file.filename):
             global ruta
-            ruta = os.path.join(main.config['UPLOAD_FOLDER'], filename)
+            ruta = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(ruta)
             print('Archivo ' + file.filename + ' cargado correctamente.')
         else:
