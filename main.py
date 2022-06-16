@@ -6,44 +6,44 @@ import os
 from PIL import Image as imagen
 
 #Run on PS
-#   $env:FLASK_APP = "main"
+#   $env:FLASK_APP = "app"
 #   $env:FLASK_ENV = "development"
 #   flask run
 
-main = Flask(__name__)
-main.secret_key = "asdf"
+app = Flask(__name__)
+app.secret_key = "asdf"
 
 
 UPLOAD_FOLDER = 'static/uploads'
-main.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-main.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg'])
 
 def allowed_file(filename):
  return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@main.route('/')
+@app.route('/')
 def index():
     flash("Arrastra el pixel art a convertir" )
     msj2 = "> AQUÍ <"
     return render_template("index.html", msj2=msj2)
 
-@main.route("/upload", methods=["POST","GET"])
+@app.route("/upload", methods=["POST","GET"])
 def upload():
     if request.method == 'POST':
         file = request.files['file']
         filename = secure_filename(file.filename)  
         if file and allowed_file(file.filename):
             global ruta
-            ruta = os.path.join(main.config['UPLOAD_FOLDER'], filename)
+            ruta = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(ruta)
             print('Archivo ' + file.filename + ' cargado correctamente.')
         else:
            print('Inválido. Agregue solo archivos png o jpg.')
     return jsonify(ruta)
 
-@main.route("/conversion", methods = ["POST"])
+@app.route("/conversion", methods = ["POST"])
 def greet():
     use = request.args.get("use")
     numCuadX = request.form.get("numCuadX")
@@ -57,7 +57,7 @@ def greet():
         #Recibir .txt y ofrecer como descarga        
     return render_template("conversion.html")
 
-@main.route('/download')
+@app.route('/download')
 def download_file():
     return send_file(nom, as_attachment=True)
 
@@ -106,4 +106,4 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ru
     escrSprite.close()             
 
 if __name__ == "__main__":   
-    main.run(debug = True)
+    app.run(debug = True)
