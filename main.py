@@ -70,7 +70,7 @@ def greet():
     numEspacio = request.form.get("numEspacio")
     numIniX = request.form.get("numIniX")
     numIniY = request.form.get("numIniY")
-    
+    print(leeNume.readlines()[-1])
     if use:
         leeNume = open(archivo_numeracion,'r')        
         nmcn = int(leeNume.readlines()[-2])        
