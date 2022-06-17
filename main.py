@@ -46,16 +46,42 @@ def upload():
 
 @app.route("/conversion", methods = ["POST"])
 def greet():
+    global ruta_numeracion
+    global archivo_numeracion
+
+    archivo_numeracion = 'nume.txt'
+    ruta_numeracion = Path(archivo_numeracion)
+    filesize = os.path.getsize(archivo_numeracion)
+
+    if not ruta_numeracion.is_file():
+            creaNume = open(archivo_numeracion,'x')
+            with creaNume as num:
+                num.write(str(1)+"\n")
+            creaNume.close()
+    else:   
+        if filesize == 0:
+            escrNume = open(archivo_numeracion,'a')
+            escrNume.write(str(1)+"\n")
+            escrNume.close()
+
     use = request.args.get("use")
+
     numCuadX = request.form.get("numCuadX")
     numCuadY = request.form.get("numCuadY")
     numEspacio = request.form.get("numEspacio")
     numIniX = request.form.get("numIniX")
     numIniY = request.form.get("numIniY")
-    flash("Archivo generado.")
+    
     if use:
-        convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY)           #Enviar a convert(ruta)
-        #Recibir .txt y ofrecer como descarga        
+        leeNume = open(archivo_numeracion,'r')        
+        n = int(leeNume.readlines()[-1])        
+        leeNume.close()
+        
+        nombre_sprite = "sprite" + str(n) +".txt"
+
+        convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, n, nombre_sprite)   
+
+    flash("Archivo '" + nombre_sprite + "' generado.")      
     return render_template("conversion.html")
 
 @app.route('/download')
@@ -68,45 +94,22 @@ def pixel_rgb(img_path, x, y):                                        #Toma ruta
     a = (r, g, b)
     return a
 
-def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ruta de imagen
+def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, n, nombre_sprite):        #Recoge ruta de imagen
     img = ruta
     global nom
-    nume = 'nume.txt'
-    ruta_nume = Path('nume.txt')
-    filesize = os.path.getsize(nume)
 
-
-    if not ruta_nume.is_file():
-            creaNume = open(nume,'x')
-            with creaNume as num:
-                num.write(str(1)+"\n")
-            creaNume.close()
-    else:   
-        if filesize == 0:
-            escrNume = open(nume,'a')
-            escrNume.write(str(1)+"\n")
-            escrNume.close()
-    
-    escrNume = open(nume,'a')
-    leeNume = open(nume,'r')    
-    n = int(leeNume.readlines()[-1])
-    nom = "sprite" + str(n) +".txt"
+    nom = nombre_sprite
     path2 = Path(nom)
-    leeNume.close()
-
-    
     
     if not path2.is_file():
         creaSprite = open(nom, "x")
         creaSprite.close()    
         escrSprite = open(nom, "a")
     else:
-        n += 1
-        nom = "sprite"+ str(n) +".txt"
-        creaSprite = open(nom, "x")
-        creaSprite.close()
+        sobreSprite = open(nom, "w")
+        sobreSprite.close()
         escrSprite = open(nom, "a")
-
+    n += 1
     dimx = int(numCuadX)
     dimy = int(numCuadY)
     espacio = float(numEspacio)
@@ -136,7 +139,7 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ru
         vy += 1
     
     escrSprite.close()   
-    n +=1
+    escrNume = open(archivo_numeracion,'a')
     escrNume.write(str(n)+"\n")
     escrNume.close()    
 
