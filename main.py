@@ -55,8 +55,7 @@ def greet():
 
     if not ruta_numeracion.is_file():
             creaNume = open(archivo_numeracion,'x')
-            with creaNume as num:
-                num.write(str(1)+"\n")
+            creaNume.write(str(1)+"\n")
             creaNume.close()
     else:   
         if filesize == 0:
@@ -94,7 +93,7 @@ def pixel_rgb(img_path, x, y):                                        #Toma ruta
     a = (r, g, b)
     return a
 
-def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, n, nombre_sprite):        #Recoge ruta de imagen
+def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, nmcn, nombre_sprite):        #Recoge ruta de imagen
     img = ruta
     global nom
 
@@ -109,9 +108,9 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, n, nombre_sprite):
         sobreSprite = open(nom, "w")
         sobreSprite.close()
         escrSprite = open(nom, "a")
-    n += 1
+    nmcn += 1
     escrNume = open(archivo_numeracion,'a')
-    escrNume.write(str(n)+"\n")
+    escrNume.write(str(nmcn)+"\n")
     escrNume.close()  
 
     dimx = int(numCuadX)
