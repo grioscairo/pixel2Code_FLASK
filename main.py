@@ -73,7 +73,7 @@ def greet():
     
     if use:
         leeNume = open(archivo_numeracion,'r')        
-        nmcn = int(leeNume.readlines()[-1])        
+        nmcn = int(leeNume.readlines()[-2])        
         leeNume.close()
         
         nombre_sprite = "sprite" + str(nmcn) +".txt"
