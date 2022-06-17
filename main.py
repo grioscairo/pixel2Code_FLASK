@@ -74,22 +74,30 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ru
     global ruta_nume
     nume = 'nume.txt'
     ruta_nume = Path('nume.txt')
+    filesize = os.path.getsize(nume)
+
 
     if not ruta_nume.is_file():
             creaNume = open(nume,'x')
             with creaNume as num:
                 num.write(str(1)+"\n")
             creaNume.close()
-
+    else:
+        leeNume = open(nume,'r')    
+        if filesize == 0:
+            escrNume = open(nume,'a')
+            escrNume.write(str(1)+"\n")
+            escrNume.close()
+    
     escrNume = open(nume,'a')
-
     leeNume = open(nume,'r')    
     n = int(leeNume.readlines()[-1])
+    nom = "sprite" + str(n) +".txt"
+    path2 = Path(nom)
     leeNume.close()
 
     
-    nom = "sprite" + str(n) +".txt"
-    path2 = Path(nom)
+    
     if not path2.is_file():
         creaSprite = open(nom, "x")
         creaSprite.close()    
