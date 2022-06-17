@@ -4,6 +4,7 @@ from flask import Flask, render_template ,request, flash, jsonify, send_file
 from werkzeug.utils import secure_filename
 import os
 from PIL import Image as imagen
+from pathlib import Path
 
 #Run on PS
 #   $env:FLASK_APP = "app"
@@ -70,10 +71,35 @@ def pixel_rgb(img_path, x, y):                                        #Toma ruta
 def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ruta de imagen
     img = ruta
     global nom
-    nom = "sprite.txt"
-    creaSprite = open(nom, "w")
-    creaSprite.close()    
-    escrSprite = open(nom, "a")
+    global ruta_nume
+    nume = 'nume.txt'
+    ruta_nume = Path('nume.txt')
+
+    if not ruta_nume.is_file():
+            creaNume = open(nume,'x')
+            with creaNume as num:
+                num.write(str(1)+"\n")
+            creaNume.close()
+
+    escrNume = open(nume,'a')
+
+    leeNume = open(nume,'r')    
+    n = int(leeNume.readlines()[-1])
+    leeNume.close()
+
+    
+    nom = "sprite" + str(n) +".txt"
+    path2 = Path(nom)
+    if not path2.is_file():
+        creaSprite = open(nom, "x")
+        creaSprite.close()    
+        escrSprite = open(nom, "a")
+    else:
+        n += 1
+        nom = "sprite"+ str(n) +".txt"
+        creaSprite = open(nom, "x")
+        creaSprite.close()
+        escrSprite = open(nom, "a")
 
     dimx = int(numCuadX)
     dimy = int(numCuadY)
@@ -103,7 +129,10 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ru
         vx = 0
         vy += 1
     
-    escrSprite.close()             
+    escrSprite.close()   
+    n +=1
+    escrNume.write(str(n)+"\n")
+    escrNume.close()    
 
 if __name__ == "__main__":   
     app.run(debug = True)
