@@ -51,28 +51,29 @@ def greet():
 
     archivo_numeracion = 'nume.txt'
     ruta_numeracion = Path(archivo_numeracion)
-    filesize = os.path.getsize(archivo_numeracion)
-
-    if not ruta_numeracion.is_file():
-            creaNume = open(archivo_numeracion,'x')
-            creaNume.write(str(1))
-            creaNume.close()
-    else:   
-        if filesize == 0:
-            escrNume = open(archivo_numeracion,'a')
-            escrNume.write(str(1))
-            escrNume.close()
-
     use = request.args.get("use")
-
     numCuadX = request.form.get("numCuadX")
     numCuadY = request.form.get("numCuadY")
     numEspacio = request.form.get("numEspacio")
     numIniX = request.form.get("numIniX")
     numIniY = request.form.get("numIniY")
+
     if use:
-        leeNume = open(archivo_numeracion,'r') 
-        print(leeNume.readlines()[-1])      
+        if not ruta_numeracion.is_file():
+                creaNume = open(archivo_numeracion,'x')
+                creaNume.close()
+                escrNume = open(archivo_numeracion,'a')
+                escrNume.write(str(1))
+                escrNume.close()
+        else:   
+            leeNume = open(archivo_numeracion,'r')
+            if (leeNume.readlines()[-1] == "" ):
+                escrNume = open(archivo_numeracion,'a')
+                escrNume.write(str(1))
+                escrNume.close()
+            leeNume.close()
+
+        leeNume = open(archivo_numeracion,'r')  
         nmcn = int(leeNume.readlines()[-1])        
         leeNume.close()
         
