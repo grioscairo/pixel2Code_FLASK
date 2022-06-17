@@ -71,7 +71,6 @@ def pixel_rgb(img_path, x, y):                                        #Toma ruta
 def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ruta de imagen
     img = ruta
     global nom
-    global ruta_nume
     nume = 'nume.txt'
     ruta_nume = Path('nume.txt')
     filesize = os.path.getsize(nume)
@@ -82,8 +81,7 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ru
             with creaNume as num:
                 num.write(str(1)+"\n")
             creaNume.close()
-    else:
-        leeNume = open(nume,'r')    
+    else:   
         if filesize == 0:
             escrNume = open(nume,'a')
             escrNume.write(str(1)+"\n")
@@ -117,7 +115,7 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY):        #Recoge ru
 
     vx=0
     vy=0
-    v = pixel_rgb(img, vx, vy)                                         #Envía ruta habia rgb scanner
+    v = pixel_rgb(img, vx, vy)                                         #Envía ruta hacia rgb scanner
 
     for ix in range(0, dimy):    
         for ix in range(0, dimx):
