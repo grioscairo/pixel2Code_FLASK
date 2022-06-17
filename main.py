@@ -55,12 +55,12 @@ def greet():
 
     if not ruta_numeracion.is_file():
             creaNume = open(archivo_numeracion,'x')
-            creaNume.write(str(1)+"\n")
+            creaNume.write(str(1))
             creaNume.close()
     else:   
         if filesize == 0:
             escrNume = open(archivo_numeracion,'a')
-            escrNume.write(str(1)+"\n")
+            escrNume.write(str(1))
             escrNume.close()
 
     use = request.args.get("use")
@@ -70,10 +70,10 @@ def greet():
     numEspacio = request.form.get("numEspacio")
     numIniX = request.form.get("numIniX")
     numIniY = request.form.get("numIniY")
-    print(leeNume.readlines()[-1])
     if use:
-        leeNume = open(archivo_numeracion,'r')        
-        nmcn = int(leeNume.readlines()[-2])        
+        leeNume = open(archivo_numeracion,'r') 
+        print(leeNume.readlines()[-1])      
+        nmcn = int(leeNume.readlines()[-1])        
         leeNume.close()
         
         nombre_sprite = "sprite" + str(nmcn) +".txt"
@@ -110,7 +110,7 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, nmcn, nombre_sprit
         escrSprite = open(nom, "a")
     nmcn += 1
     escrNume = open(archivo_numeracion,'a')
-    escrNume.write(str(nmcn)+"\n")
+    escrNume.write('\n' + str(nmcn))
     escrNume.close()  
 
     dimx = int(numCuadX)
