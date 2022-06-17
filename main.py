@@ -76,7 +76,7 @@ def greet():
         leeNume = open(archivo_numeracion,'r')  
         nmcn = int(leeNume.readlines()[-1])        
         leeNume.close()
-        
+        global nombre_sprite
         nombre_sprite = "sprite" + str(nmcn) +".txt"
 
         convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, nmcn, nombre_sprite)   
@@ -86,7 +86,7 @@ def greet():
 
 @app.route('/download')
 def download_file():
-    return send_file(nom, as_attachment=True)
+    return send_file(nombre_sprite, as_attachment=True)
 
 def pixel_rgb(img_path, x, y):                                        #Toma ruta y realiza scan
     im = imagen.open(img_path).convert('RGB')
