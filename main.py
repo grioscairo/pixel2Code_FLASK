@@ -7,7 +7,7 @@ from PIL import Image as imagen
 from pathlib import Path
 
 #Run on PS
-#   $env:FLASK_APP = "app"
+#   $env:FLASK_APP = "main"
 #   $env:FLASK_ENV = "development"
 #   flask run
 
@@ -74,12 +74,12 @@ def greet():
     
     if use:
         leeNume = open(archivo_numeracion,'r')        
-        n = int(leeNume.readlines()[-1])        
+        nmcn = int(leeNume.readlines()[-1])        
         leeNume.close()
         
-        nombre_sprite = "sprite" + str(n) +".txt"
+        nombre_sprite = "sprite" + str(nmcn) +".txt"
 
-        convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, n, nombre_sprite)   
+        convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, nmcn, nombre_sprite)   
 
     flash("Archivo '" + nombre_sprite + "' generado.")      
     return render_template("conversion.html")
@@ -110,14 +110,18 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, n, nombre_sprite):
         sobreSprite.close()
         escrSprite = open(nom, "a")
     n += 1
+    escrNume = open(archivo_numeracion,'a')
+    escrNume.write(str(n)+"\n")
+    escrNume.close()  
+
     dimx = int(numCuadX)
     dimy = int(numCuadY)
     espacio = float(numEspacio)
     inix = float(numIniX)
     iniy = float(numIniY)
-
     vx=0
     vy=0
+
     v = pixel_rgb(img, vx, vy)                                         #Envía ruta hacia rgb scanner
 
     for ix in range(0, dimy):    
@@ -139,9 +143,7 @@ def convert(numCuadX, numCuadY, numEspacio, numIniX, numIniY, n, nombre_sprite):
         vy += 1
     
     escrSprite.close()   
-    escrNume = open(archivo_numeracion,'a')
-    escrNume.write(str(n)+"\n")
-    escrNume.close()    
+      
 
 if __name__ == "__main__":   
     app.run(debug = True)
